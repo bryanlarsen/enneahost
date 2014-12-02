@@ -165,7 +165,7 @@ Dockerfile:
 
     ENV DOCKER_RUN_OPTIONS -P --env=DATABASE_URL=postgres://postgres@postgres.service.consul/#<IMAGE_NAME>#-production
 
-The funny `#<IMAGE_NAME>#` syntax takes advantage of kv-consul to dynamically insert the actual image name.   This is usually extraneous: I would recommend just replacing `#<IMAGE_NAME>#` with your application name to keep things clear.   Just make sure you use the same name when pushing to enneahost.
+The funny `#<IMAGE_NAME>#` syntax takes advantage of [kv-consul](https://bryanlarsen/docker-plugin-kv-consul) to dynamically insert the actual image name.   This is usually extraneous: I would recommend just replacing `#<IMAGE_NAME>#` with your application name to keep things clear.   Just make sure you use the same name when pushing to enneahost.
 
 The KV_SET:webapp line triggers the [ennea webapp plugin](https://github.com/bryanlarsen/ennea-webapp-nginx).  The cname and public lines are parameters for the plugin.
 
