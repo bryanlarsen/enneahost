@@ -131,6 +131,14 @@ Creates a load-balancing nginx proxy configuration for a webapp
 
 Builds and pushes docker images on a git push
 
+## [progrium/registrator](https://github.com/progrium/registrator)
+
+Registers docker services in Consul automatically.
+
+## [docker-plugin-kv-consul](https://github.com/bryanlarsen/docker-plugin-kv-consul)
+
+Automatically sets consul keys on container start based on values in the Docker container environment.
+
 # Example: Hosting a Rails Application
 
 ## Postgres
