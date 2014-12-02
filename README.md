@@ -57,10 +57,9 @@ be put into a Docker container can be run by EnneaHost.
 
 ## The Name
 
-Ennea is the ancient Greek prefix for ninth, in the same way that octo is the
-prefix for eighth.  EnneaHost started as a fork of OctoHost, and owes
-it a great debt.  I do hope that OctoHost liberally steals back from
-EnneaHost.
+Ennea is the ancient Greek prefix for ninth, in the same way that octo
+is the prefix for eighth.  EnneaHost was heavily inspired by OctoHost.
+I do hope that OctoHost liberally steals back from EnneaHost.
 
 # How to use
 
