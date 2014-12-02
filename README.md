@@ -182,4 +182,4 @@ You then should be able to initialize your database:
     ennea <name> run rake db:migrate
     ennea <name> run rake db:seed
 
-Your application should now be running on your host and should be available at the cname you provided as well as <name>.<ip>.xip.io.
+Your application should now be running on your host and should be available at the cname you provided as well as `<name>.<ip>.xip.io`.
