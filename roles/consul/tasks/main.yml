@@ -1,0 +1,15 @@
+---
+# http://www.morethanseven.net/2014/04/25/consul/
+- apt: pkg=dnsmasq
+- copy: src=dnsmasq.conf dest=/etc/dnsmasq.d/10-consul
+  notify: restart dnsmasq
+
+- name: find docker0 ip address
+  shell: ip -o -4 addr list docker0 | awk '{print $4}' | cut -d/ -f1
+  register: docker0_ip_address
+
+- file: state=directory name=/var/run/docker
+- template: src=upstart.conf dest=/etc/init/consul.conf
+  notify: restart consul
+
+- meta: flush_handlers

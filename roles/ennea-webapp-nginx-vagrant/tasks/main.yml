@@ -1,0 +1,3 @@
+---
+- file: state=directory name=/var/enneahost-templates
+- shell: chdir=/vagrant/modules/ennea-webapp-nginx TEMPLATE_DIR=/var/enneahost-templates ./install.sh

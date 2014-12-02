@@ -1,0 +1,2 @@
+---
+- command: consulkv set vagrant-ubuntu-trusty-64/public_ip 192.168.33.100

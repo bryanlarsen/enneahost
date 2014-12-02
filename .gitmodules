@@ -1,0 +1,15 @@
+[submodule "modules/gitreceive"]
+	path = modules/gitreceive
+	url = https://github.com/progrium/gitreceive
+[submodule "modules/docker-plugin-kv-consul"]
+	path = modules/docker-plugin-kv-consul
+	url = https://github.com/bryanlarsen/docker-plugin-kv-consul
+[submodule "modules/ennea-upstart"]
+	path = modules/ennea-upstart
+	url = https://github.com/bryanlarsen/ennea-upstart
+[submodule "modules/ennea-webapp-nginx"]
+	path = modules/ennea-webapp-nginx
+	url = https://github.com/bryanlarsen/ennea-webapp-nginx
+[submodule "modules/ennea-git-builder"]
+	path = modules/ennea-git-builder
+	url = https://github.com/bryanlarsen/ennea-git-builder

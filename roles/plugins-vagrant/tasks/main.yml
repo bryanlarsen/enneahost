@@ -1,0 +1,3 @@
+---
+- command: chdir=/vagrant/plugins/upstart-docker bash install.sh
+- command: chdir=/vagrant/plugins/webapp-nginx bash install.sh

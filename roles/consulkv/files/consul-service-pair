@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+out=$(dig $1.service.consul. SRV | grep -v "^;")
+IP=$(echo "${out}" | grep "IN\s*A" | awk '{print $5}')
+port=$(echo "${out}" | grep "IN\s*SRV" | awk '{print $7}')
+echo "${IP}:${port}"

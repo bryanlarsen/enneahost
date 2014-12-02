@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+name="$1"
+shift
+command="$1"
+shift
+cmd=("$@")
+
+set -eo pipefail
+
+run() {
+    local json=$(consulkv get enneahost/images/"${name}")
+    if [[ -z $json ]] ; then
+        echo "command '${name}' not found"
+        exit 1
+    fi
+
+    local namespace=$(echo "${json}" | jq -r .namespace)
+    if [[ ! -z $namespace ]] ; then
+        namespace="${namespace}/"
+    fi
+
+    local tag=$(echo "${json}" | jq -r .tag)
+    if [[ -z $tag ]] ; then
+        tag="latest"
+    fi
+
+    local tempfile=$(tempfile)
+    echo "${json}" | jq -r .run_options > "${tempfile}"
+    local options=($(consul-template -template "${tempfile}" -dry -once | tail -n -1))
+    rm "${tempfile}"
+
+    exec docker run -it "${options[@]}" "${namespace}${name}:${tag}" "${cmd[@]}"
+}
+
+exec_() {
+  cid=$(cat /var/run/docker/"${name}".cid)
+  if [[ -z $cid ]] ; then
+      echo "command '${name}' not running"
+      exit 1
+  fi
+
+  exec docker exec -it "${cid}" "${cmd[@]}"
+}
+
+case "${command}" in
+    run) run ;;
+    exec) exec_ ;;
+    *)
+cat <<EOF
+
+ennea <name> run <cmd...>                   run cmd in new container (docker run)
+ennea <name> exec <cmd...>                  run cmd in existing container (docker exec)
+EOF
+;;
+
+esac

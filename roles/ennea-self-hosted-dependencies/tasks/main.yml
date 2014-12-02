@@ -1,0 +1,4 @@
+---
+- command: "consulkv set enneahost/images/registry '{\"namespace\": \"library\", \"run_options\": \"--volume=/var/docker-registry:/tmp/registry -p 5000:5000\"}'"
+- command: "consulkv set enneahost/images/registrator '{\"namespace\": \"progrium\", \"run_options\": \"--volume=/var/run/docker.sock:/tmp/docker.sock\", \"run_cmd\": \"consul://consul.service.consul:8500\"}'"
+- command: "consulkv set enneahost/images/kv-consul '{\"namespace\": \"bryanlarsen\", \"run_options\": \"--volume=/var/run/docker.sock:/var/run/docker.sock -e KV_CONSUL_IP=consul.service.consul\"}'"

@@ -1,0 +1,5 @@
+---
+- copy: src=../../../modules/gitreceive/gitreceive dest=/usr/local/bin/gitreceive mode=0755
+- command: /usr/local/bin/gitreceive init
+- command: gpasswd -a git docker
+- copy: src=../../../modules/ennea-git-builder/receiver dest=/home/git/receiver owner=git group=git mode=0755

@@ -1,0 +1,5 @@
+---
+- copy: src=consulkv dest=/usr/local/bin/consulkv mode=0755
+- copy: src=consul-service-port dest=/usr/local/bin/consul-service-port mode=0755
+- copy: src=consul-service-pair dest=/usr/local/bin/consul-service-pair mode=0755
+- apt: pkg=jq

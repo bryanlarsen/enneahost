@@ -1,0 +1,2 @@
+---
+- copy: src=../../../bin/ennea dest=/usr/local/bin/ mode=0755

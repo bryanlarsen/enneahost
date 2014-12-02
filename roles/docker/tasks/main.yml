@@ -1,0 +1,43 @@
+---
+- apt_key:
+    url: http://get.docker.io/gpg
+    id: A88D21E9
+    state: present
+
+- apt_repository:
+    repo: deb http://get.docker.io/ubuntu docker main
+    update_cache: yes
+    state: present
+
+- apt: pkg=lxc-docker
+
+- copy: src=docker.conf dest=/etc/init/docker.conf
+  notify: restart docker
+
+- stat: path=/etc/updatedb.conf
+  register: updatedb_conf_exists
+
+- name: Ensure updatedb does not index /var/lib/docker
+  shell: >
+    ex -s -c '/PRUNEPATHS=/v:/var/lib/docker:s:"$: /var/lib/docker"' -c 'wq' /etc/updatedb.conf
+  when: updatedb_conf_exists.stat.exists
+
+- stat: path=/etc/default/ufw
+  register: ufw_default_exists
+
+- name: Change ufw default forward policy from drop to accept
+  lineinfile: dest=/etc/default/ufw regexp="^DEFAULT_FORWARD_POLICY=" line="DEFAULT_FORWARD_POLICY=\"ACCEPT\""
+  when: ufw_default_exists.stat.exists
+
+- name: find docker0 ip address
+  shell: ip -o -4 addr list docker0 | awk '{print $4}' | cut -d/ -f1
+  register: docker0_ip_address
+
+- lineinfile: dest=/etc/default/docker regexp="DOCKER_OPTS=" line='DOCKER_OPTS="--dns {{ docker0_ip_address.stdout }} --insecure-registry=localhost:5000 --insecure-registry=registry.service.consul:5000"'
+  notify: restart docker
+
+- file: state=directory mode=0755 name=/var/lib/docker
+- file: state=directory mode=0755 name=/var/lib/docker/vfs
+- file: state=directory mode=0755 name=/var/lib/docker/vfs/dir
+
+- meta: flush_handlers

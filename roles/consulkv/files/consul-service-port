@@ -1,0 +1,2 @@
+#!/bin/sh
+dig $1.service.consul. SRV +short | cut -d " " -f 3

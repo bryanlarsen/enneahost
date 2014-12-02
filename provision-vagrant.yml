@@ -1,0 +1,15 @@
+---
+- hosts: all
+  sudo: yes
+  roles:
+    - role: docker
+    - role: consul
+    - role: consul-template
+    - role: consulkv
+    - role: git-builder
+    - role: nginx
+    - role: configuration-vagrant
+    - role: ennea-cli
+    - role: ennea-upstart-vagrant
+    - role: ennea-self-hosted-dependencies
+    - role: ennea-webapp-nginx-vagrant
