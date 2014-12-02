@@ -114,28 +114,46 @@ See [INSTALL.md](https://github.com/bryanlarsen/enneahost/INSTALL.md)
 
 # The EnneaHost Components
 
+## Dependencies
+
+required:
+
+- [Docker](https://docker.com)
+- [Consul](https://consul.io)
+- [consul-template](https://github.com/hashicorp/consul-template)
+
+recommended:
+
+- [Docker Registry](https://github.com/docker/docker-registry)
+- [progrium/gitreceive](https://github.com/progrium/gitreceive)
+- [nginx](https://nginx.org)
+
+installed by the ansible script, but not used:
+
+- [consulkv](https://gist.github.com/progrium/b45a9fe697dd68c3ea0f)
+
 ## [ennea-upstart](https://github.com/bryanlarsen/ennea-upstart)
 
 This is the core of EnneaHost.  It starts docker containers when a key is added to `enneahost/images/` in consul.
 
-## [webapp-nginx](https://github.com/bryanlarsen/ennea-webapp-nginx)
+## [webapp-nginx](https://github.com/bryanlarsen/ennea-webapp-nginx) (optional)
 
 Creates a load-balancing nginx proxy configuration for a webapp
 
-## ennea cli
+## ennea cli (optional)
 
 - `ennea <name> run <cmd...>`: run cmd in new container (docker run)
 - `ennea <name> exec <cmd...>`: run cmd in existing container (docker exec)
 
-## [git builder](https://github.com/bryanlarsen/ennea-git-builder)
+## [git builder](https://github.com/bryanlarsen/ennea-git-builder) (optional)
 
 Builds and pushes docker images on a git push
 
-## [progrium/registrator](https://github.com/progrium/registrator)
+## [progrium/registrator](https://github.com/progrium/registrator) (optional)
 
 Registers docker services in Consul automatically.
 
-## [docker-plugin-kv-consul](https://github.com/bryanlarsen/docker-plugin-kv-consul)
+## [docker-plugin-kv-consul](https://github.com/bryanlarsen/docker-plugin-kv-consul) (optional)
 
 Automatically sets consul keys on container start based on values in the Docker container environment.
 
@@ -171,13 +189,13 @@ Dockerfile:
     ENV KV_SET:#<IMAGE_NAME>#/cname example.com
     ENV KV_SET:#<IMAGE_NAME>#/public #jq<.Volumes["/app/public"]>#
 
-    ENV DOCKER_RUN_OPTIONS -P --env=DATABASE_URL=postgres://postgres@postgres.service.consul/#<IMAGE_NAME>#-production
+    ENV DOCKER_RUN_OPTIONS -P --env=DATABASE_URL=postgres://postgres@postgres.service.consul/mydb-production
 
 The funny `#<IMAGE_NAME>#` syntax takes advantage of [kv-consul](https://bryanlarsen/docker-plugin-kv-consul) to dynamically insert the actual image name.   This is usually extraneous: I would recommend just replacing `#<IMAGE_NAME>#` with your application name to keep things clear.   Just make sure you use the same name when pushing to enneahost.
 
 The KV_SET:webapp line triggers the [ennea webapp plugin](https://github.com/bryanlarsen/ennea-webapp-nginx).  The cname and public lines are parameters for the plugin.
 
-Then push your app to enneahost:
+Push your app to enneahost:
 
     git remote add enneahost git@<ip>:<name>
     git push enneahost master
